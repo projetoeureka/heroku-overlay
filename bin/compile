@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=$1
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+if [ -z "$OVERLAY" ]; then
+  echo "'OVERLAY' environment variable not set, aborting..." | indent
+  exit 1
+fi
+
+echo "-----> Overlaying '*.$OVERLAY' over repository root"
+
+cd $BUILD_DIR
+
+for from in *.$OVERLAY; do
+  to=${from/%.$OVERLAY/}
+  echo "copying '$from' to '$to'" | indent
+  cp $from $to
+done

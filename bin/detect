@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Heroku Overlays: a way to work with multiple apps in the same repository"
+exit 0
