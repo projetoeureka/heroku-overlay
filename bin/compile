@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 BUILD_DIR=$1
+ENV_DIR=$3
 
 shopt -s nullglob  # if files don't exist, expand globs to zero arguments instead to themselves
 
@@ -12,10 +13,12 @@ function indent() {
   esac
 }
 
-if [ -z "$OVERLAY" ]; then
+if [ ! -e "$ENV_DIR/OVERLAY" ]; then
   echo "'OVERLAY' environment variable not set, aborting..." | indent
   exit 1
 fi
+
+OVERLAY=$(<$ENV_DIR/OVERLAY)
 
 echo "-----> Overlaying '*.$OVERLAY' over repository root"
 
